@@ -14,15 +14,12 @@ def get_list_of_fighters():
     page_text = requests.get(list_of_fighters_url).text
     soup = BeautifulSoup(page_text, 'html.parser')
     tables = soup.find_all('table')
-    i = 1
     for index, division in fight_tables:
         table = tables[index]
         rows = table.findChildren('tr')
         rows = [row for row in rows if len(row.findChildren('td')) == 9]
         for row in rows:
             cells = row.findChildren('td')
-            print(i)
-            i += 1
             print(
                 f'name: {parse_span_cell(cells[1])}, age: {parse_span_cell(cells[2])}, nickname: {parse_nickname(cells[4])}')
 
