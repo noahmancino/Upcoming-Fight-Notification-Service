@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from upcoming_fight_app.scrapers.scrape_fighters import get_list_of_fighters
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+get_list_of_fighters()
