@@ -4,16 +4,17 @@ from django.db.models import Q
 
 class Fighter(models.Model):
     name = models.CharField(max_length=60)
-    oldest_possible_birthday = models.IntegerField()  # Ages change, so I'd prefer to derive ages from birthdays
-    youngest_possible_birthday = models.IntegerField()
+    birth_date = models.IntegerField()
+    sherdog_url = models.CharField(max_length=100)
     weight_class = models.CharField(max_length=20)
     nickname = models.CharField(max_length=50, blank=True, null=True)
 
     @classmethod
-    def exists_by_name_and_birthdays(cls, fighter_name, youngest, oldest):
-        return cls.objects.filter(Q(youngest_possible_birthday__in=[youngest, oldest]) |
-                                  Q(youngest_possible_birthday__in=[youngest, oldest]), name=fighter_name) \
-            .count()
+    def exists_in_db(cls, fighter):
+        return cls.objects.filter(name=fighter.name, birth_date=fighter.birth_date).exists()
+
+    def __repr__(self):
+        return str(self.__dict__)
 
 
 class Match(models.Model):
